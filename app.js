@@ -1,46 +1,57 @@
-//O principal objetivo deste desafio é fortalecer suas habilidades em lógica de programação. Aqui você deverá desenvolver a lógica para resolver o problema.
-
-
 let amigo = [];
+let sorteioRealizado = false;
+
+const inputAmigo = document.getElementById('amigo');
+const listaAmigos = document.getElementById('listaAmigos');
 
 function adicionarAmigo(){
-
-    let adicionar = document.querySelector('input').value;
-
-    if (adicionar.trim() == ''){
-        alert('Por Favor, insira um nome.');
-    }else{        
-        amigo.push(adicionar);
-        listaDeAmigos();                
+    if (sorteioRealizado){
+        alert('Sorteiro ja realizado. Atualize a pagina para reiniciar');
+    } else{
+        const nomeAmigo = inputAmigo.value.trim();
+        if (nomeAmigo == ''){
+            alert('Por favor, insira um nome!');
+        }else{
+            if(amigo.includes(nomeAmigo)){
+                alert('Este nome ja foi adicionado, caso seja uma pessoa diferente inclua alguma distinção!')
+            }else{
+                amigo.push(nomeAmigo);
+                atualizarListaAmigos();
+                limparInput();
+            }
+        }
     }
+}
 
-    stringVazia();
-
-    return amigo;
+function sortearAmigo(){
+    if (sorteioRealizado){
+        alert('Sorteiro ja realizado. Atualize a pagina para reiniciar');
+    } else{
+        if (amigo.length == 0){
+            alert('Não a amigo para sortear');
+        }else{
+            const sorteioIndice = Math.floor(Math.random() * amigo.length);
+            const amigoSorteado = amigo[sorteioIndice];
     
+            listaAmigos.innerHTML = `<p>Seu amigo secreto é: ${amigoSorteado}</p>`;
+    
+            sorteioRealizado = true;
+        }
+    }
 }
 
 
-function sortearAmigo(){  
-    let tamanhoAmigo = amigo.length;
-    sorteioNumero = parseInt(Math.random() * tamanhoAmigo );
-    let amigoSorteado = amigo[sorteioNumero];
-    console.log(sorteioNumero, amigoSorteado);    
+function limparInput(){
+    inputAmigo.value = '';
 }
 
+function atualizarListaAmigos(){
+    listaAmigos.innerHTML = '';
 
-
-
-function stringVazia(){
-    adicionar = document.querySelector('input').value = '';
+    amigo.forEach(amigo =>{
+        const novoItem = document.createElement('li');
+        novoItem.textContent = amigo;
+        listaAmigos.appendChild(novoItem);
+    });
 }
 
-
-function listaDeAmigos() {
-    const input = document.getElementById('amigo');
-    const nome = input.value;    
-    const lista = document.getElementById('listaAmigos');
-    const novoItem = document.createElement('li');
-    novoItem.textContent = nome;
-    lista.appendChild(novoItem);      
-}
